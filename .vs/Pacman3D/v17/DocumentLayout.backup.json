@@ -7,6 +7,10 @@
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\GhostAi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\pasch\\Documents\\GitHub\\Pacman3D\\Assets\\Scripts\\MazeBuilder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\MazeBuilder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\pasch\\Documents\\GitHub\\Pacman3D\\Assets\\Scripts\\PacmanMover.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\PacmanMover.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -33,8 +37,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MazeBuilder.cs",
+              "DocumentMoniker": "C:\\Users\\pasch\\Documents\\GitHub\\Pacman3D\\Assets\\Scripts\\MazeBuilder.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\MazeBuilder.cs",
+              "ToolTip": "C:\\Users\\pasch\\Documents\\GitHub\\Pacman3D\\Assets\\Scripts\\MazeBuilder.cs",
+              "RelativeToolTip": "Assets\\Scripts\\MazeBuilder.cs",
+              "ViewState": "AgIAADAAAAAAAAAAAAAwwDsAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-16T04:06:36.452Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -43,14 +60,14 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\GhostAi.cs",
               "ToolTip": "C:\\Users\\pasch\\Documents\\GitHub\\Pacman3D\\Assets\\Scripts\\GhostAi.cs",
               "RelativeToolTip": "Assets\\Scripts\\GhostAi.cs",
-              "ViewState": "AgIAABUAAAAAAAAAAAAwwDYAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAwwGkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-12T03:30:15.915Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "GameManager.cs",
               "DocumentMoniker": "C:\\Users\\pasch\\Documents\\GitHub\\Pacman3D\\Assets\\Scripts\\GameManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\GameManager.cs",
@@ -58,12 +75,11 @@
               "RelativeToolTip": "Assets\\Scripts\\GameManager.cs",
               "ViewState": "AgIAABgAAAAAAAAAAAAwwDkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-12T03:09:58.58Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-12T03:09:58.58Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "PacmanMover.cs",
               "DocumentMoniker": "C:\\Users\\pasch\\Documents\\GitHub\\Pacman3D\\Assets\\Scripts\\PacmanMover.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\PacmanMover.cs",
@@ -71,12 +87,11 @@
               "RelativeToolTip": "Assets\\Scripts\\PacmanMover.cs",
               "ViewState": "AgIAAAoAAAAAAAAAAAAwwCsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-18T15:19:40.568Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-18T15:19:40.568Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "CameraFollow.cs",
               "DocumentMoniker": "C:\\Users\\pasch\\Documents\\GitHub\\Pacman3D\\Assets\\Scripts\\CameraFollow.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\CameraFollow.cs",
@@ -84,12 +99,11 @@
               "RelativeToolTip": "Assets\\Scripts\\CameraFollow.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-18T15:06:58.215Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-18T15:06:58.215Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "PelletPickup.cs",
               "DocumentMoniker": "C:\\Users\\pasch\\Documents\\GitHub\\Pacman3D\\Assets\\Scripts\\PelletPickup.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\PelletPickup.cs",
@@ -97,12 +111,11 @@
               "RelativeToolTip": "Assets\\Scripts\\PelletPickup.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-17T16:00:21.64Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-17T16:00:21.64Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "PacmanGridMover.cs",
               "DocumentMoniker": "C:\\Users\\s482798\\Documents\\GitHub\\Pacman3D\\Assets\\Scripts\\PacmanGridMover.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\s482798\\Documents\\GitHub\\Pacman3D\\Assets\\Scripts\\PacmanGridMover.cs",

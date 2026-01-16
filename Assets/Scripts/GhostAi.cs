@@ -1,112 +1,123 @@
 using UnityEngine;
-using System.Collections.Generic;
 
 public class GhostAI : MonoBehaviour
 {
-    public float tileSize = 1f;
     public float speed = 5f;
-    public float checkDistance = 0.9f;
-    public LayerMask wallLayer;
+    public MazeBuilder maze;
     public Transform pacman;
+    public int personality = 0;
 
     Vector3 currentDir = Vector3.left;
-    Vector3 chaseOffset;
 
     void Start()
     {
+        if (maze == null)
+            maze = FindObjectOfType<MazeBuilder>();
+
         if (pacman == null)
         {
             GameObject p = GameObject.FindGameObjectWithTag("Player");
             if (p != null) pacman = p.transform;
         }
 
-        chaseOffset = new Vector3(
-            Random.Range(-3f, 3f),
-            0f,
-            Random.Range(-3f, 3f)
-        );
-
-        Vector3 p0 = transform.position;
-        p0.x = Mathf.Round(p0.x / tileSize) * tileSize;
-        p0.z = Mathf.Round(p0.z / tileSize) * tileSize;
-        transform.position = p0;
+        if (maze != null)
+        {
+            Vector2Int cell = maze.WorldToCell(transform.position);
+            Vector3 center = maze.CellToWorld(cell.x, cell.y, transform.position.y);
+            transform.position = center;
+        }
     }
 
     void FixedUpdate()
     {
-        ChooseDirection();
+        if (maze == null) return;
 
+        if (pacman != null)
+            UpdateDirection();
+
+        Move();
+    }
+
+    void UpdateDirection()
+    {
+        Vector2Int ghostCell = maze.WorldToCell(transform.position);
+        Vector2Int pacCell = maze.WorldToCell(pacman.position);
+
+        Vector2Int targetCell = pacCell;
+
+        if (personality == 1)
+            targetCell += new Vector2Int(2, 0);
+        else if (personality == 2)
+            targetCell += new Vector2Int(0, 2);
+        else if (personality == 3)
+            targetCell += new Vector2Int(-2, 0);
+
+        int dx = targetCell.x - ghostCell.x;
+        int dz = targetCell.y - ghostCell.y;
+
+        Vector3[] dirs = new Vector3[4];
+        int index = 0;
+
+        if (Mathf.Abs(dx) >= Mathf.Abs(dz))
+        {
+            if (dx > 0) dirs[index++] = Vector3.right;
+            else if (dx < 0) dirs[index++] = Vector3.left;
+
+            if (dz > 0) dirs[index++] = Vector3.back;
+            else if (dz < 0) dirs[index++] = Vector3.forward;
+        }
+        else
+        {
+            if (dz > 0) dirs[index++] = Vector3.back;
+            else if (dz < 0) dirs[index++] = Vector3.forward;
+
+            if (dx > 0) dirs[index++] = Vector3.right;
+            else if (dx < 0) dirs[index++] = Vector3.left;
+        }
+
+        dirs[index++] = Vector3.right;
+        dirs[index++] = Vector3.left;
+
+        for (int i = 0; i < dirs.Length; i++)
+        {
+            Vector3 d = dirs[i];
+            if (d == Vector3.zero) continue;
+
+            Vector2Int nextCell = NextCell(ghostCell, d);
+            if (maze.IsWalkableCell(nextCell.x, nextCell.y))
+            {
+                currentDir = d;
+                return;
+            }
+        }
+    }
+
+    void Move()
+    {
         Vector3 pos = transform.position;
         pos += currentDir * speed * Time.fixedDeltaTime;
 
-        if (Mathf.Abs(currentDir.x) > 0.5f)
-            pos.z = Mathf.Round(pos.z / tileSize) * tileSize;
+        Vector2Int cell = maze.WorldToCell(pos);
+        Vector3 center = maze.CellToWorld(cell.x, cell.y, pos.y);
 
-        if (Mathf.Abs(currentDir.z) > 0.5f)
-            pos.x = Mathf.Round(pos.x / tileSize) * tileSize;
+        if (Mathf.Abs(currentDir.x) > 0.5f)
+            pos.z = center.z;
+        else if (Mathf.Abs(currentDir.z) > 0.5f)
+            pos.x = center.x;
 
         transform.position = pos;
     }
 
-    void ChooseDirection()
+    Vector2Int NextCell(Vector2Int cell, Vector3 dir)
     {
-        Vector3[] dirs = { Vector3.forward, Vector3.back, Vector3.left, Vector3.right };
-        List<Vector3> options = new List<Vector3>();
+        int c = cell.x;
+        int r = cell.y;
 
-        for (int i = 0; i < dirs.Length; i++)
-        {
-            if (CanMove(dirs[i]))
-                options.Add(dirs[i]);
-        }
+        if (dir == Vector3.right) c += 1;
+        else if (dir == Vector3.left) c -= 1;
+        else if (dir == Vector3.forward) r -= 1;
+        else if (dir == Vector3.back) r += 1;
 
-        if (options.Count == 0)
-        {
-            currentDir = Vector3.zero;
-            return;
-        }
-
-        List<Vector3> filtered = new List<Vector3>();
-        for (int i = 0; i < options.Count; i++)
-        {
-            if (options[i] != -currentDir)
-                filtered.Add(options[i]);
-        }
-
-        List<Vector3> pool = filtered.Count > 0 ? filtered : options;
-
-        if (pacman == null)
-        {
-            int i = Random.Range(0, pool.Count);
-            currentDir = pool[i];
-            return;
-        }
-
-        Vector3 best = pool[0];
-        float bestDist = DistanceInDir(best);
-
-        for (int i = 1; i < pool.Count; i++)
-        {
-            float d = DistanceInDir(pool[i]);
-            if (d < bestDist)
-            {
-                bestDist = d;
-                best = pool[i];
-            }
-        }
-
-        currentDir = best;
-    }
-
-    float DistanceInDir(Vector3 dir)
-    {
-        Vector3 next = transform.position + dir * tileSize;
-        Vector3 target = pacman != null ? pacman.position + chaseOffset : transform.position;
-        return (next - target).sqrMagnitude;
-    }
-
-    bool CanMove(Vector3 dir)
-    {
-        if (dir == Vector3.zero) return false;
-        return !Physics.Raycast(transform.position, dir, checkDistance, wallLayer);
+        return new Vector2Int(c, r);
     }
 }
