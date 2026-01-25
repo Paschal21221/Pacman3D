@@ -10,6 +10,13 @@ public class PacmanMover : MonoBehaviour
     Vector3 currentDir = Vector3.zero;
     Vector3 desiredDir = Vector3.zero;
 
+    Rigidbody rb;
+
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
+
     void Update()
     {
         if (Keyboard.current == null) return;
@@ -32,7 +39,7 @@ public class PacmanMover : MonoBehaviour
         if (!CanMove(currentDir))
             currentDir = Vector3.zero;
 
-        transform.position += currentDir * speed * Time.fixedDeltaTime;
+        rb.MovePosition(rb.position + currentDir * speed * Time.fixedDeltaTime);
     }
 
     bool CanMove(Vector3 dir)

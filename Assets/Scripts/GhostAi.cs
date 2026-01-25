@@ -7,7 +7,10 @@ public class GhostAI : MonoBehaviour
     public Transform pacman;
     public int personality = 0;
 
+    public GhostMode mode = GhostMode.Normal;
+
     Vector3 currentDir = Vector3.left;
+    Vector3 spawnPos;
 
     void Start()
     {
@@ -25,6 +28,7 @@ public class GhostAI : MonoBehaviour
             Vector2Int cell = maze.WorldToCell(transform.position);
             Vector3 center = maze.CellToWorld(cell.x, cell.y, transform.position.y);
             transform.position = center;
+            spawnPos = transform.position;
         }
     }
 
@@ -32,26 +36,52 @@ public class GhostAI : MonoBehaviour
     {
         if (maze == null) return;
 
-        if (pacman != null)
-            UpdateDirection();
+        if (AtCellCenter())
+        {
+            if (mode == GhostMode.Frightened && pacman != null)
+                UpdateFleeDirection();
+            else if (pacman != null)
+                UpdateChaseDirection();
+        }
 
         Move();
     }
 
-    void UpdateDirection()
+    bool AtCellCenter()
+    {
+        Vector2Int cell = maze.WorldToCell(transform.position);
+        Vector3 center = maze.CellToWorld(cell.x, cell.y, transform.position.y);
+        return Vector3.Distance(transform.position, center) < 0.05f;
+    }
+
+    void UpdateChaseDirection()
     {
         Vector2Int ghostCell = maze.WorldToCell(transform.position);
         Vector2Int pacCell = maze.WorldToCell(pacman.position);
 
-        Vector2Int targetCell = pacCell;
+        Vector2Int target = pacCell;
 
         if (personality == 1)
-            targetCell += new Vector2Int(2, 0);
+            target += new Vector2Int(2, 0);
         else if (personality == 2)
-            targetCell += new Vector2Int(0, 2);
+            target += new Vector2Int(0, 2);
         else if (personality == 3)
-            targetCell += new Vector2Int(-2, 0);
+            target += new Vector2Int(-2, 0);
 
+        ChooseBestDirection(ghostCell, target);
+    }
+
+    void UpdateFleeDirection()
+    {
+        Vector2Int ghostCell = maze.WorldToCell(transform.position);
+        Vector2Int pacCell = maze.WorldToCell(pacman.position);
+        Vector2Int target = ghostCell + (ghostCell - pacCell);
+
+        ChooseBestDirection(ghostCell, target);
+    }
+
+    void ChooseBestDirection(Vector2Int ghostCell, Vector2Int targetCell)
+    {
         int dx = targetCell.x - ghostCell.x;
         int dz = targetCell.y - ghostCell.y;
 
@@ -78,13 +108,12 @@ public class GhostAI : MonoBehaviour
         dirs[index++] = Vector3.right;
         dirs[index++] = Vector3.left;
 
-        for (int i = 0; i < dirs.Length; i++)
+        foreach (Vector3 d in dirs)
         {
-            Vector3 d = dirs[i];
             if (d == Vector3.zero) continue;
 
-            Vector2Int nextCell = NextCell(ghostCell, d);
-            if (maze.IsWalkableCell(nextCell.x, nextCell.y))
+            Vector2Int next = NextCell(ghostCell, d);
+            if (maze.IsWalkableCell(next.x, next.y))
             {
                 currentDir = d;
                 return;
@@ -110,14 +139,22 @@ public class GhostAI : MonoBehaviour
 
     Vector2Int NextCell(Vector2Int cell, Vector3 dir)
     {
-        int c = cell.x;
-        int r = cell.y;
+        if (dir == Vector3.right) cell.x++;
+        else if (dir == Vector3.left) cell.x--;
+        else if (dir == Vector3.forward) cell.y--;
+        else if (dir == Vector3.back) cell.y++;
+        return cell;
+    }
 
-        if (dir == Vector3.right) c += 1;
-        else if (dir == Vector3.left) c -= 1;
-        else if (dir == Vector3.forward) r -= 1;
-        else if (dir == Vector3.back) r += 1;
+    public void ResetGhost()
+    {
+        transform.position = spawnPos;
+        mode = GhostMode.Normal;
+    }
 
-        return new Vector2Int(c, r);
+    public void EatGhost()
+    {
+        transform.position = spawnPos;
+        mode = GhostMode.Normal;
     }
 }
